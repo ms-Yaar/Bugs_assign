@@ -1,0 +1,41 @@
+<h1>Welcome to the project</h1>
+
+<% if user_signed_in? %>
+  <p>Signed in as <%= current_user.role %>.</p>
+  <%= button_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn btn-danger' %>
+<% else %>
+  <%= button_to 'Sign in', new_user_session_path, class: 'btn btn-primary' %>
+<% end %>
+
+
+<h3>Instructions</h3>
+<h4>. Click Sign Up and Fill out the form;</h4>
+<h4>. Enter a VALID EMAIL ADDRESS, please;</h4>
+<h4>. An email will be sent to this address containing a confirmation link.</h4>
+<%= button_to("Sign Up", '/signup',   method: :get) %>
+<h6>Thank you for use thhs app!</h6>
+
+<h1>Projects</h1>
+
+<ul>
+  <% @projects.each do |project| %>
+    <li>
+      <% if can? :read, project %>
+      <%= link_to project.name, project %>
+        <% end %>
+
+    </li>
+    
+  <% end %>
+</ul>
+<% if can? :create, Project %>
+<%= link_to "New project", new_project_path %>
+
+  <% end %>
+
+  <div style="margin-top: 50px;"></div>
+
+<% if can? :create, Bug %>
+  <%= link_to "New Bug", new_bug_path, class: 'btn btn-primary' %>
+    <% end %>
+
