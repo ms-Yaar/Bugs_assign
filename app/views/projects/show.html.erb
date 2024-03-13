@@ -1,14 +1,14 @@
 <h1><%= @project.name %></h1>
 
+<p>Creator: <%= @project.creator.try(:name) || 'Unknown' %></p>
+<p>User: <%= @project.user.try(:name) || 'Unknown' %></p>
+
 <ul>
   <li><%= link_to "Edit", edit_project_path(@project) %></li>
-
-     <li><%= link_to "Destroy", project_path(@project), data: {
-                    turbo_method: :delete,
-                    turbo_confirm: "Are you sure?"
-                  } %>
-    </li>
-
+  <li><%= link_to "Destroy", project_path(@project), data: {
+    turbo_method: :delete,
+    turbo_confirm: "Are you sure?"
+  } %></li>
 </ul>
 
 <h2>Bugs associated with this project:</h2>
@@ -18,4 +18,5 @@
     <li><%= link_to bug.title, bug_path(bug) %></li>
   <% end %>
 </ul>
-<%= link_to "projects", projects_path %>
+
+<%= link_to "Back", projects_path %>

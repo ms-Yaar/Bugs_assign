@@ -5,6 +5,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
          enum role: { manager: 0, qa: 1, developer: 2 }
 
+
+
+         
 has_many :projects, dependent: :destroy
 has_many :bugs
 

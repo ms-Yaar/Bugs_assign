@@ -1,7 +1,8 @@
 class ProjectsController < ApplicationController
 
   before_action :authenticate_user!
-  load_and_authorize_resource
+  load_and_authorize_resource 
+  before_action :set_project, only: [:show, :edit, :update, :destroy]
 
   def index
     #@projects=Project.all
@@ -10,9 +11,13 @@ class ProjectsController < ApplicationController
     end
 
     def show
-      @project=Project.find(params[:id])
+     
+    
+        @project = Project.find(params[:id])
+
       
     end
+    
   
     def edit
       @project=Project.find(params[:id])
@@ -25,7 +30,8 @@ class ProjectsController < ApplicationController
   
     def create
       @project = Project.new(project_params)
-      
+      @project.creator_id = current_user.id
+     
 
       if @project.save
         @user=@project.user
@@ -62,11 +68,20 @@ class ProjectsController < ApplicationController
       end
     end
   
+   
+    
      private
   
   def project_params
-    params.require(:project).permit(:name, :user_id)
+    params.require(:project).permit(:name, :user_id,:creator_id)
   
   end
 
+   def set_project
+    @project = Project.find(params[:id])
+  end
+
+
+
+  
 end

@@ -1,27 +1,43 @@
 # frozen_string_literal: true
 
-class Ability
-  include CanCan::Ability
+#class Ability
+ # include CanCan::Ability
 
-  def initialize(user)
-    def initialize(user)
-      user ||= User.new 
+ # def initialize(user)
+    #def initialize(user)
+      #user ||= User.new 
   
-      if user.manager?
-       # can :manage ,Project, user_id: user.id
-       can :manage
-      elsif user.qa?
-        can :read, Bug ,user_id: user.id
-        can :read, Project, user_id: user.id
-        can :manage , Bug,user_id: user.id
+     # if user.manager?
+        #can :read, Project
+        #can [:create, :update, :destroy], Project, user_id: user.id
+        #can :manage, Bug
+        #can :manage, Project
+        # can :manage,:all
 
-      elsif user.developer?
-        can :read, Project, user_id: user.id
 
-        can [:read, :edit,:update], Bug, user_id: user.id
+
+     # elsif user.qa?
+        #can :read, Bug ,user_id: user.id
+        #can :read, Project, user_id: user.id
+       # can :manage , Bug,user_id: user.id
+
+    #  elsif user.developer?
+        #can :read, Project, user_id: user.id
+
+       # can [:read, :edit,:update], Bug, user_id: user.id
 
        
        # can :edit, Bug, user_id: user.id[]
+
+
+
+
+
+
+
+
+
+
 
       
     # Define abilities for the user here. For example:
@@ -48,7 +64,35 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/blob/develop/docs/define_check_abilities.md
+  #end
+#end
+#end
+#end
+
+
+
+
+class Ability
+  include CanCan::Ability
+
+  def initialize(user)
+    user ||= User.new
+
+    if user.manager?
+      can :manage, Project, creator_id: user.id
+      can :manage, Bug, creator_id: user.id
+      #can :manage, creator_id: user.id
+      
+    elsif user.qa?
+      #can :read, Bug, user_id: user.id
+      can :read, Project, user_id: user.id
+      can :manage, Bug
+    elsif user.developer?
+      can :read, Project, user_id: user.id
+      can [:read,:edit, :update], Bug, user_id: user.id
+     
+     
+
+    end
   end
-end
-end
 end

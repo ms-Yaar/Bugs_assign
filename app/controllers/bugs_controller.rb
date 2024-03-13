@@ -1,6 +1,7 @@
 class BugsController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource
+  before_action :set_bug, only: [:show, :edit, :update, :destroy]
 
   def index
    # @bugs=Bug.all
@@ -18,12 +19,16 @@ class BugsController < ApplicationController
     end
   
     def new
+
       @bug=Bug.new
+
+
     end
   
     def create
       @bug = Bug.new(bug_params)
-  
+      @bug.creator_id = current_user.id
+
       if @bug.save
         redirect_to project_path(@bug.project_id), notice: 'Bug was successfully created.'
       else
@@ -61,6 +66,8 @@ class BugsController < ApplicationController
     params.require(:bug).permit(:title, :description,:user_id, :project_id)
   
   end
-  
+  def set_bug
+    @bug = Bug.find(params[:id])
+  end
   
 end
